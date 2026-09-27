@@ -1,0 +1,27 @@
+A1 TASK 2 REMARK EVIDENCE — UNCHANGED CANVAS SUBMISSION ON AWS EMR
+Captured UTC: 2026-09-18 03:04:05
+EMR host: ip-192-168-25-39.ec2.internal
+Hadoop 3.4.2-amzn-0
+
+$ sha256sum s4271512_PG-1.zip
+539374a20bb144f60e1056d05bf988ed769d6370fa6e7e0536e4d605bf187ce8  /home/hadoop/a1-remark-20260918/s4271512_PG-1.zip
+
+$ sha256sum released grading inputs
+5ecf26e2c69b992b0144cc2dc55a3a68783df91ca861466a08c3b62b10f2ae7a  /home/hadoop/a1-remark-20260918/grading-inputs/initialization.txt
+2e90112456fe602959cb8577622b7925783d18d48be830ec560f912396ffae08  /home/hadoop/a1-remark-20260918/grading-inputs/Trips_task2.txt
+Trips_task2.txt HDFS record count: 15
+
+$ bash ./task2-run.sh
+Iteration 1
+Iteration 2
+Assignments unchanged; converged after 2 iteration(s).
+Final output written to /Output/task2
+task2-run.sh exit status: 0
+
+$ hadoop fs -cat '/Output/task2/part*' | sort
+14.063	70.076	5	5.47
+67.157	10.290	6	7.92
+67.723	88.253	4	6.43
+
+$ diff -u source-hashes-before.txt source-hashes-after.txt
+[no differences — all submitted .py and .sh files remained unchanged]

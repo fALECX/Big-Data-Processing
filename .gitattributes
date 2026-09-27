@@ -1,0 +1,11 @@
+# Store binaries byte-for-byte (no line-ending conversion)
+*.pdf  binary
+*.doc  binary
+*.docx binary
+*.zip  binary
+*.png  binary
+
+# Scripts run on Linux (EMR); keep LF on every checkout
+*.sh   text eol=lf
+*.py   text eol=lf
+*.pig  text eol=lf

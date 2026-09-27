@@ -1,0 +1,28 @@
+{
+  "project": "Big Data Processing",
+  "updated_at": "2026-09-27",
+  "memory_policy": "Use native harness memory for observations; promote only reviewed, repeated, project-specific rules.",
+  "routing_policy": "Use a planner for ambiguity, an implementer for changes, and a reviewer for focused verification; default concurrency is one.",
+  "last_inventory": {
+    "scope": "Assignment 2 and Weeks 7-10 course files",
+    "result": "All required A2 files are present. Weeks 7-10 are separated by week; Week 10 has Data, Examples and Labs folders, with byte-identical incoming copies preserved in a duplicate-download archive. The learning paper now covers Weeks 1-10.",
+    "observations": [
+      "A2 requires Pig Latin and a Jython UDF on EMR; the Week 10 Spark Streaming lab is not an A2 prerequisite.",
+      "The Canvas overview cites Pig UDF docs 0.17.0; the detailed spec cites 0.18.0; the local guide is 0.17.0.",
+      "The A2 specification cover labels 27 September 2026 as Friday; verify the deadline against Canvas.",
+      "The two Scala exercise PDFs are distinct versions; the extended version includes additional examples.",
+      "Six Week 10 files with download suffixes were SHA-256 identical to the canonical copies and were moved into Week 10/Duplicate downloads - identical copies; no unique content was discarded.",
+      "Week 8 has a lecture, App.java, sample dataset and Mahout job JAR, but no separate lab handout was found in the workspace; this does not affect Assignment 2."
+    ],
+    "course_material_gaps": [
+      "Week 7 tutorial references join_task1.pig and join_task2.pig companion examples, but no .pig source files were located. These are optional practice files, not A2 deliverables."
+    ],
+    "integrity_checks": [
+      "All organized course and assignment PDFs parsed successfully with pypdf.",
+      "The A2 work-log DOCX passed ZIP integrity validation.",
+      "The Mahout job JAR passed ZIP integrity validation and contains the recommender classes used by App.java.",
+      "The four A2 CSV inputs have consistent field counts and their cross-file country/year references were checked."
+    ],
+    "open_assignment_download_gaps": []
+  }
+}

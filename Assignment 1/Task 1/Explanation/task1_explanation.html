@@ -1,0 +1,365 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Task 1 — Taxi-Level Trip Efficiency Analysis — Solution Walkthrough</title>
+<style>
+  @page { margin: 22mm 18mm; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    color: #1a1a1a;
+    line-height: 1.5;
+    font-size: 12.5px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 22px; border-bottom: 3px solid #2c3e50; padding-bottom: 8px; margin-top: 0; }
+  h2 {
+    font-size: 16px;
+    background: #2c3e50;
+    color: #fff;
+    padding: 6px 10px;
+    margin-top: 34px;
+    page-break-before: auto;
+  }
+  h3 { font-size: 13.5px; color: #2c3e50; margin-top: 20px; border-left: 4px solid #2c3e50; padding-left: 8px; }
+  .meta { color: #555; font-size: 11.5px; margin-bottom: 20px; }
+  .filebox {
+    background: #1e2530;
+    color: #d4d4d4;
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: 10.5px;
+    font-family: Consolas, 'Courier New', monospace;
+    white-space: pre;
+    overflow-x: auto;
+    page-break-inside: avoid;
+    line-height: 1.4;
+  }
+  .filename {
+    font-family: Consolas, monospace;
+    background: #eef1f4;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11.5px;
+  }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0 16px 0; font-size: 11.5px; }
+  th, td { border: 1px solid #ccc; padding: 5px 8px; text-align: left; vertical-align: top; }
+  th { background: #eef1f4; }
+  .field { font-family: Consolas, monospace; font-size: 11px; }
+  .note {
+    background: #fff8e1;
+    border-left: 4px solid #f0ad4e;
+    padding: 8px 12px;
+    margin: 12px 0;
+    font-size: 11.5px;
+  }
+  .req {
+    background: #eafaf1;
+    border-left: 4px solid #27ae60;
+    padding: 8px 12px;
+    margin: 12px 0;
+    font-size: 11.5px;
+  }
+  .example { background: #f4f6f8; padding: 8px 12px; border-radius: 4px; font-size: 11.5px; font-family: Consolas, monospace; }
+  ol, ul { margin: 6px 0; padding-left: 22px; }
+  li { margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<h1>Task 1 — Taxi-Level Trip Efficiency Analysis</h1>
+<div class="meta">
+  COSC2637 Big Data Processing — Assignment 1 · Solution walkthrough (explanatory, not the
+  submitted work log) · Verified working on the real EMR cluster (s4271512)
+</div>
+
+<h2>1. The problem, in plain terms</h2>
+<p>
+For every taxi, and for every "trip type" that taxi has driven (short/medium/long, based on
+distance), we need one summary row telling the transport authority: how many trips of that
+type, the biggest fare, the smallest fare, and the average fare. So a taxi that does a mix of
+short airport hops and long cross-city runs ends up with <em>two</em> output rows — one for
+its short-trip behaviour, one for its long-trip behaviour — rather than one row that blends
+both together.
+</p>
+<p>
+Trip type is decided purely by distance:
+</p>
+<table>
+  <tr><th>Trip type</th><th>Distance condition</th></tr>
+  <tr><td class="field">long</td><td>distance &ge; 200</td></tr>
+  <tr><td class="field">medium</td><td>100 &le; distance &lt; 200</td></tr>
+  <tr><td class="field">short</td><td>distance &lt; 100</td></tr>
+</table>
+<p>
+The "primary key" of the output is the pair <span class="field">(taxi_id, trip_type)</span> —
+that's what every row is grouped and aggregated by.
+</p>
+
+<h2>2. The three files, and how they fit together</h2>
+<p>
+This is a classic single-pass Hadoop Streaming MapReduce job: one mapper stage, one reducer
+stage, no chaining. Three files make it up:
+</p>
+<ol>
+  <li><span class="filename">task1_mapper.py</span> — reads raw trip rows, classifies them,
+  and pre-aggregates ("in-mapper combining") before emitting anything.</li>
+  <li><span class="filename">task1_reducer.py</span> — merges the pre-aggregated pieces from
+  every mapper into the true final totals per (taxi_id, trip_type), and computes the average.</li>
+  <li><span class="filename">task1-run.sh</span> — the driver: wipes any stale output, then
+  launches the Hadoop Streaming job with the right configuration (3 reducers, the partitioner
+  that keeps our 2-field key grouped correctly).</li>
+</ol>
+
+<h2>3. <span class="filename">task1_mapper.py</span></h2>
+
+<div class="filebox">#!/usr/bin/env python3
+import sys
+
+stats = {}  # (taxi_id, trip_type) -&gt; [count, max_fare, min_fare, sum_fare]
+
+for line in sys.stdin:
+    line = line.strip()
+    if not line:
+        continue
+    fields = line.split(",")
+    if len(fields) != 8:
+        continue  # skip malformed lines
+
+    taxi_id, fare, distance = fields[1], fields[2], fields[3]
+    try:
+        fare = float(fare)
+        distance = float(distance)
+    except ValueError:
+        continue
+
+    if distance &gt;= 200:
+        trip_type = "long"
+    elif distance &gt;= 100:
+        trip_type = "medium"
+    else:
+        trip_type = "short"
+
+    key = (taxi_id, trip_type)
+    if key in stats:
+        s = stats[key]
+        s[0] += 1
+        if fare &gt; s[1]: s[1] = fare
+        if fare &lt; s[2]: s[2] = fare
+        s[3] += fare
+    else:
+        stats[key] = [1, fare, fare, fare]  # count, max, min, sum
+
+for (taxi_id, trip_type), (count, max_fare, min_fare, sum_fare) in stats.items():
+    print('%s\t%s\t%d\t%.2f\t%.2f\t%.2f' % (taxi_id, trip_type, count, max_fare, min_fare, sum_fare))</div>
+
+<h3>What it does, step by step</h3>
+<ul>
+  <li><b>Hadoop hands this script raw lines on stdin.</b> In Hadoop Streaming, the mapper is
+  just an executable that reads text from standard input and writes text to standard output —
+  no special API. That's why it's <span class="field">for line in sys.stdin</span>, not some
+  Hadoop-specific call.</li>
+  <li><b>Parsing:</b> each line of <span class="filename">Trips.txt</span> looks like
+  <span class="example">0,470,117.32,64.27,54.736,91.185,20.488,93.348</span> — comma
+  separated: trip_id, taxi_id, fare, distance, pickup_x, pickup_y, dropoff_x, dropoff_y. We
+  only need <span class="field">fields[1]</span> (taxi_id), <span class="field">fields[2]</span>
+  (fare), <span class="field">fields[3]</span> (distance) for this task, so the rest are read
+  but ignored.</li>
+  <li><b>Defensive parsing:</b> <span class="field">if len(fields) != 8: continue</span> and the
+  <span class="field">try/except ValueError</span> around the float conversions mean a
+  malformed line is silently skipped rather than crashing the whole mapper task (which would
+  fail the entire job).</li>
+  <li><b>Classification:</b> a simple if/elif/else turns the numeric distance into one of the
+  three trip-type strings.</li>
+  <li><b>The important part — in-mapper combining:</b> instead of printing a line <em>per
+  trip</em> (which the assignment explicitly discourages — "a reasonable big data program
+  should not... heavy processing should be pushed to the mapper"), we keep a Python dict
+  <span class="field">stats</span> keyed by <span class="field">(taxi_id, trip_type)</span>.
+  Every trip just updates that key's running count/max/min/sum in memory. Nothing is printed
+  inside the loop at all.</li>
+  <li><b>Emit only at the end:</b> once <span class="field">sys.stdin</span> is exhausted (this
+  mapper task has no more input to read), the final loop prints <em>one line per distinct key
+  this mapper ever saw</em> — not one line per trip. If a mapper processed 5,000 trips but
+  they only belonged to 300 distinct (taxi, type) combinations, it emits 300 lines, not 5,000.
+  That's the entire point of in-mapper combining: it shrinks the data volume that has to be
+  shuffled across the network to the reducers.</li>
+</ul>
+
+<div class="note">
+<b>Why is this "state preserved across input lines"?</b> Hadoop Streaming launches your
+mapper script <em>once per input split</em> and feeds it many lines over stdin in sequence —
+the process stays alive for the whole split. Because <span class="field">stats</span> is
+declared once, outside the loop, it accumulates across every line that specific mapper process
+sees, rather than being reset per line. That persistence is exactly what the assignment means
+by "in-mapper combining with state preserved across input lines."
+</div>
+
+<h3>What the mapper emits</h3>
+<p>Tab-separated, 6 fields — but note these are still <em>partial</em> aggregates (one mapper
+only saw a slice of the whole file), not the final answer yet:</p>
+<div class="example">taxi_id&nbsp;&nbsp;&nbsp;trip_type&nbsp;&nbsp;&nbsp;partial_count&nbsp;&nbsp;&nbsp;partial_max_fare&nbsp;&nbsp;&nbsp;partial_min_fare&nbsp;&nbsp;&nbsp;partial_sum_fare</div>
+
+<h2>4. <span class="filename">task1_reducer.py</span></h2>
+
+<div class="filebox">#!/usr/bin/env python3
+import sys
+
+current_taxi = None
+current_type = None
+count = 0
+max_fare = None
+min_fare = None
+sum_fare = 0.0
+
+def emit(taxi_id, trip_type, count, max_fare, min_fare, sum_fare):
+    avg_fare = sum_fare / count
+    print('%s\t%s\t%d\t%.2f\t%.2f\t%.2f' % (taxi_id, trip_type, count, max_fare, min_fare, avg_fare))
+
+for line in sys.stdin:
+    line = line.strip()
+    if not line:
+        continue
+    taxi_id, trip_type, c, mx, mn, sm = line.split('\t')
+    c = int(c); mx = float(mx); mn = float(mn); sm = float(sm)
+
+    if taxi_id == current_taxi and trip_type == current_type:
+        count += c
+        sum_fare += sm
+        if mx &gt; max_fare: max_fare = mx
+        if mn &lt; min_fare: min_fare = mn
+    else:
+        if current_taxi is not None:
+            emit(current_taxi, current_type, count, max_fare, min_fare, sum_fare)
+        current_taxi, current_type = taxi_id, trip_type
+        count, max_fare, min_fare, sum_fare = c, mx, mn, sm
+
+if current_taxi is not None:
+    emit(current_taxi, current_type, count, max_fare, min_fare, sum_fare)</div>
+
+<h3>What it does, step by step</h3>
+<ul>
+  <li><b>Hadoop guarantees sorted, grouped input.</b> Before the reducer ever runs, Hadoop's
+  shuffle-and-sort phase collects every mapper's output for a given key and delivers it to one
+  reducer, <em>sorted by key</em>. So by the time this script reads stdin, all the lines for
+  taxi "104"/"long" are guaranteed to arrive consecutively — never interleaved with a different
+  key in between. That's what makes the "streaming group-by" pattern below correct.</li>
+  <li><b>The running-group pattern:</b> this is the classic Hadoop Streaming reducer idiom (the
+  same shape you'll have seen in the Week 3/4 word-count and salary examples). We track
+  <span class="field">current_taxi</span>/<span class="field">current_type</span> — "which key
+  am I currently accumulating for?" — plus the running totals for that key.</li>
+  <li><b>While the key stays the same:</b> merge this line's partial numbers into the running
+  totals — add counts, add sums, take the max of maxes, the min of mins. This is combining
+  <em>already-aggregated</em> partial results from potentially several different mappers, not
+  re-deriving anything from scratch. That satisfies "reducers should mainly focus on final
+  aggregation of already partially processed data."</li>
+  <li><b>The moment the key changes:</b> the previous key is finished — nothing more for it
+  will ever arrive (thanks to sorted input) — so we call <span class="field">emit()</span> to
+  print its final line, then reset the running totals to start accumulating the new key.</li>
+  <li><b>The average is computed here, and only here:</b> <span class="field">sum_fare /
+  count</span> inside <span class="field">emit()</span>. Averages can't be combined
+  losslessly (the average of two averages isn't the true average unless you also weight by
+  count) — that's exactly why the mapper/earlier reducer stages ship the raw <em>sum</em> and
+  <em>count</em> separately, and division only happens once, at the very last step.</li>
+  <li><b>The final <span class="field">if current_taxi is not None: emit(...)</span> after the
+  loop:</b> without this, the very last group read from stdin would never get printed — the
+  loop only emits when it detects a key change, but there's no "next different key" event
+  after the last line to trigger that. This line is easy to forget and is a classic
+  off-by-one bug in this exact pattern.</li>
+</ul>
+
+<h3>What it emits — the actual final output</h3>
+<div class="example">taxi_id&nbsp;&nbsp;&nbsp;trip_type&nbsp;&nbsp;&nbsp;total_trips&nbsp;&nbsp;&nbsp;max_fare&nbsp;&nbsp;&nbsp;min_fare&nbsp;&nbsp;&nbsp;avg_fare</div>
+<p>Real verified line from the cluster run:</p>
+<div class="example">0&nbsp;&nbsp;&nbsp;long&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;372.21&nbsp;&nbsp;&nbsp;372.21&nbsp;&nbsp;&nbsp;372.21</div>
+<p>— taxi 0 made exactly 1 long trip, fare $372.21, so max/min/avg are naturally identical.</p>
+
+<h2>5. <span class="filename">task1-run.sh</span></h2>
+
+<div class="filebox">#!/bin/bash
+hadoop fs -rm -r -f /Output/task1
+
+hadoop jar /usr/lib/hadoop/hadoop-streaming.jar \
+  -D stream.num.map.output.key.fields=2 \
+  -D mapred.reduce.tasks=3 \
+  -file ./task1_mapper.py \
+  -mapper ./task1_mapper.py \
+  -file ./task1_reducer.py \
+  -reducer ./task1_reducer.py \
+  -input /Input/Trips.txt \
+  -output /Output/task1 \
+  -partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner</div>
+
+<h3>Line by line</h3>
+<table>
+  <tr><th>Line</th><th>Purpose</th></tr>
+  <tr><td class="field">hadoop fs -rm -r -f /Output/task1</td><td>Hadoop refuses to write to
+  an output directory that already exists. Deleting it first (silently, <span class="field">-f</span>
+  = no error if it doesn't exist) is what lets you run <span class="field">./task1-run.sh</span>
+  over and over with zero manual cleanup — required by "without any external or manual
+  intervention."</td></tr>
+  <tr><td class="field">-D stream.num.map.output.key.fields=2</td><td>Tells Hadoop Streaming
+  that the first <em>two</em> tab-separated fields of each mapper output line (taxi_id,
+  trip_type) together form "the key" for sorting/grouping purposes — not just the first
+  field. Without this, Hadoop would only treat <span class="field">taxi_id</span> as the key,
+  and rows for the same taxi but different trip types wouldn't be distinguished during
+  partitioning.</td></tr>
+  <tr><td class="field">-D mapred.reduce.tasks=3</td><td>The explicit "exactly 3 reducers"
+  requirement from the spec.</td></tr>
+  <tr><td class="field">-file / -mapper / -file / -reducer</td><td><span class="field">-file</span>
+  ships the script to every node in the cluster (so it's available wherever a mapper/reducer
+  task happens to run); <span class="field">-mapper</span>/<span class="field">-reducer</span>
+  say "run this executable as the mapper/reducer."</td></tr>
+  <tr><td class="field">-input / -output</td><td>The required exact HDFS paths:
+  <span class="field">/Input/Trips.txt</span> in, <span class="field">/Output/task1</span> out.</td></tr>
+  <tr><td class="field">-partitioner KeyFieldBasedPartitioner</td><td>Hadoop's default
+  partitioner would only look at the first field to decide which reducer a row goes to. Since
+  we told Hadoop our key is 2 fields wide (via <span class="field">stream.num.map.output.key.fields=2</span>),
+  we also need a partitioner that's aware of multi-field keys —
+  <span class="field">KeyFieldBasedPartitioner</span> is the built-in Hadoop class for exactly
+  that, and it's the same technique used in the Week 4 course material
+  (<span class="filename">run_keys-1.sh</span>).</td></tr>
+</table>
+
+<h2>6. End-to-end example, traced through</h2>
+<p>Say taxi <span class="field">104</span> has these three trips in <span class="filename">Trips.txt</span> (fare, distance only, for brevity):</p>
+<div class="example">fare=280.50, distance=150&nbsp;&nbsp;→ medium<br>
+fare=310.00, distance=175&nbsp;&nbsp;→ medium<br>
+fare=90.00,&nbsp;&nbsp;distance=60&nbsp;&nbsp;&nbsp;&nbsp;→ short</div>
+<p>Suppose the first two trips are read by mapper A and the third by mapper B (different input splits):</p>
+<ul>
+  <li><b>Mapper A's dict</b> ends with <span class="field">("104","medium") → [2, 310.00, 280.50, 590.50]</span>,
+  and emits: <span class="example">104&nbsp;&nbsp;medium&nbsp;&nbsp;2&nbsp;&nbsp;310.00&nbsp;&nbsp;280.50&nbsp;&nbsp;590.50</span></li>
+  <li><b>Mapper B's dict</b> ends with <span class="field">("104","short") → [1, 90.00, 90.00, 90.00]</span>,
+  and emits: <span class="example">104&nbsp;&nbsp;short&nbsp;&nbsp;1&nbsp;&nbsp;90.00&nbsp;&nbsp;90.00&nbsp;&nbsp;90.00</span></li>
+  <li>Hadoop's shuffle/sort delivers both of these to whichever reducer owns key "104" — note
+  they're <em>two different keys</em> (medium vs short), so the reducer treats them as
+  separate groups, each getting their own <span class="field">emit()</span> call:</li>
+</ul>
+<div class="example">104&nbsp;&nbsp;medium&nbsp;&nbsp;2&nbsp;&nbsp;310.00&nbsp;&nbsp;280.50&nbsp;&nbsp;295.25<br>
+104&nbsp;&nbsp;short&nbsp;&nbsp;1&nbsp;&nbsp;90.00&nbsp;&nbsp;90.00&nbsp;&nbsp;90.00</div>
+<p>Two output rows for one taxi — exactly as the spec wants, since (taxi_id, trip_type) is the
+primary key, not taxi_id alone.</p>
+
+<h2>7. Requirement-by-requirement checklist</h2>
+<div class="req">
+<ul>
+  <li>✅ Python + Hadoop Streaming only, no external MapReduce library.</li>
+  <li>✅ No full-dataset in-memory structure — the mapper's dict holds only per-key running
+  aggregates (bounded by the number of distinct taxi/type pairs, not the number of trips), and
+  the reducer holds only the single group currently being merged.</li>
+  <li>✅ In-mapper combining, state preserved across input lines (<span class="field">stats</span>
+  dict, declared outside the loop).</li>
+  <li>✅ Exactly 3 reducers (<span class="field">mapred.reduce.tasks=3</span>, verified: 3
+  part-files produced on the real run).</li>
+  <li>✅ Exact HDFS paths: <span class="field">/Input/Trips.txt</span>,
+  <span class="field">/Output/task1</span>.</li>
+  <li>✅ 6 tab-separated output fields, correct order, 2-decimal-place formatting on the fare
+  fields, integer formatting on the count.</li>
+  <li>✅ <span class="field">./task1-run.sh</span> runs end-to-end with no manual steps, and is
+  safely re-runnable (self-cleans its output directory first).</li>
+</ul>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+# Secrets - never commit
+*.pem
+*.ppk
+*.key
+.env
+
+# Installers, binaries, and tool downloads
+Environment Setup/
+*.exe
+*.msi
+*.jar
+
+# Local scratch and caches
+tmp/
+__pycache__/
+*.pyc
+
+# Re-downloadable course materials (lecture slides, reference books, lab zips)
+Reference/
+Week */**/*.pdf
+Week */**/*.zip
+Assignment */References/
+
+# Duplicate downloads
+Week 10/Duplicate downloads - identical copies/
+* (1).*
+* (2).*
+
+# Office lock files and superseded design drafts
+~$*
+output/design-backup/
+output/design-candidates/
