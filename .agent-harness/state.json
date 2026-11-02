@@ -1,28 +1,51 @@
 {
   "project": "Big Data Processing",
-  "updated_at": "2026-09-27",
+  "updated_at": "2026-10-25",
   "memory_policy": "Use native harness memory for observations; promote only reviewed, repeated, project-specific rules.",
   "routing_policy": "Use a planner for ambiguity, an implementer for changes, and a reviewer for focused verification; default concurrency is one.",
   "last_inventory": {
-    "scope": "Assignment 2 and Weeks 7-10 course files",
-    "result": "All required A2 files are present. Weeks 7-10 are separated by week; Week 10 has Data, Examples and Labs folders, with byte-identical incoming copies preserved in a duplicate-download archive. The learning paper now covers Weeks 1-10.",
+    "scope": "Full course inventory against the Canvas schedule (L1 course overview) and Canvas announcement emails",
+    "result": "Weeks 1-9 and Assignments 1-2 are complete locally. Assignment 3 files were copied from Downloads into Assignment 3/. Week 10 lecture slides, all Week 11 material and the Week 12 A4 lectorial recording are not stored locally.",
     "observations": [
-      "A2 requires Pig Latin and a Jython UDF on EMR; the Week 10 Spark Streaming lab is not an A2 prerequisite.",
-      "The Canvas overview cites Pig UDF docs 0.17.0; the detailed spec cites 0.18.0; the local guide is 0.17.0.",
-      "The A2 specification cover labels 27 September 2026 as Friday; verify the deadline against Canvas.",
-      "The two Scala exercise PDFs are distinct versions; the extended version includes additional examples.",
-      "Six Week 10 files with download suffixes were SHA-256 identical to the canonical copies and were moved into Week 10/Duplicate downloads - identical copies; no unique content was discarded.",
-      "Week 8 has a lecture, App.java, sample dataset and Mahout job JAR, but no separate lab handout was found in the workspace; this does not affect Assignment 2."
+      "Assessment: A1, A2, A3 and A4 at 25% each; no final exam (L1 p.51).",
+      "A3 due 25 Oct 2026 23:59; local 2026A3.pdf is the 6 Oct revision with the updated Appendix A (outputs are images).",
+      "A3 sample CSVs include a header row that the job must skip.",
+      "A4 is a 2-hour Canvas quiz in Respondus LockDown Browser, open 00:01 Mon 2 Nov to 00:01 Tue 3 Nov 2026 (Melbourne); the LockDown practice quiz is mandatory beforehand.",
+      "Week 12 has no tutorial material; it is a Q&A week. Ke's Tue 13 Oct lectorial covered A4.",
+      "The Week 11 practical (spark-submit, monitoring HDFS) is the stated starting point for A3."
     ],
     "course_material_gaps": [
-      "Week 7 tutorial references join_task1.pig and join_task2.pig companion examples, but no .pig source files were located. These are optional practice files, not A2 deliverables."
+      "Week 10 lecture slides (Spark Streaming 1) are missing; only the lab and examples are local.",
+      "Week 11 lecture (Spark Streaming 2), practical handout and code are missing.",
+      "Week 12 A4 lectorial recording/notes are not local.",
+      "Week 7 join_task1.pig and join_task2.pig remain unlocated (optional)."
     ],
     "integrity_checks": [
-      "All organized course and assignment PDFs parsed successfully with pypdf.",
-      "The A2 work-log DOCX passed ZIP integrity validation.",
-      "The Mahout job JAR passed ZIP integrity validation and contains the recommender classes used by App.java.",
-      "The four A2 CSV inputs have consistent field counts and their cross-file country/year references were checked."
+      "Copied A3 files are SHA-256 identical to the Downloads originals."
     ],
-    "open_assignment_download_gaps": []
+    "open_assignment_download_gaps": [
+      "Any A3 FAQ discussion on Canvas has not been checked."
+    ]
+  },
+  "a3_submission": {
+    "status": "Built and EMR-verified on 25 Oct 2026; upload to Canvas is the user's action.",
+    "files": [
+      "output/A3/submission/s4271512_PG.zip (a3.jar + a3.scala, flat)",
+      "output/A3/submission/s4271512_PG.pdf",
+      "output/A3/submission/s4271512_PG.doc"
+    ],
+    "environment": "emr-7.13.0: Spark 3.5.6-amzn-2, Scala 2.12.18, Java 17; jar compiled against spark-streaming_2.12:3.5.6 (provided).",
+    "verification": [
+      "Exact spec spark-submit command; task1/2/3-001 and -002 match Appendix A line for line.",
+      "Edge-case file 3 (quoted comma, empty cleaned query, CRLF, threshold boundaries) matched the independent expectation.",
+      "Idle batches and a header-only file produced no output (PG Task 3 rule).",
+      "Re-run with an existing /s4271512/checkpoint starts with fresh state.",
+      "Submitted a3.jar SHA-256 40ee5a17... equals the jar tested on EMR (final run after switching Tasks 1-2 to range-partitioned sortBy; outputs split over part-00000/00001 and concatenate in global order)."
+    ],
+    "assumption": "Individual PG submission (no Canvas A3 group), as for A1 and A2.",
+    "open": [
+      "EMR cluster j-0058284QT4XWFR345T0 was left running after testing; terminate with ./terminate_cluster.sh on bdp-jump."
+    ],
+    "style": "Comments aligned to the A2 style (header block, numbered steps); A1 marker lesson applied: no single-partition sort."
   }
 }

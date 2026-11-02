@@ -1,0 +1,5 @@
+516f9084cf170f1c27e286f7180e7807cbec60576ff5e8a01aa2fbaabcbdd2d0  a3.jar
+[10:19:01] put querylog_001.csv
+[10:19:15] put querylog_002.csv
+[10:19:29] put header_only.csv (no valid records -> no output)
+[10:19:43] put querylog_003.csv

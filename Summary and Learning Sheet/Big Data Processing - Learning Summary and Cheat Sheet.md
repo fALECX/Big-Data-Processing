@@ -1,8 +1,8 @@
 # Big Data Processing — Learning Summary and Lab Cheat Sheet
 
-**Last updated:** 27 September 2026
+**Last updated:** 25 October 2026
 
-**Current coverage:** Weeks 1-10; AWS/EMR and HDFS/YARN foundations; MapReduce execution, including graph shortest paths; Python Streaming; local/weighted aggregation; iterative jobs; pairs and stripes; composite-key partitioning, secondary sort, joins, multi-job pipelines; co-occurrence matrices and relative frequencies; clustering, HAC, K-means and iterative MapReduce programming; rubric-based Assignment 1 verification and post-marking design lessons; deterministic decimal aggregation; submission-artifact version control and visual QA; Pig/Hive, including efficient Pig dataflow design, parameters and Jython UDFs; Mahout/Solr/Storm, Spark RDDs and Spark Streaming; Assignment 2 Pig runbook, EMR verification and submission set, and the Week 9-10 Spark boundary.
+**Current coverage:** Weeks 1-10 (Week 10 lecture and Week 11 material not local); AWS/EMR and HDFS/YARN foundations; MapReduce execution, including graph shortest paths; Python Streaming; local/weighted aggregation; iterative jobs; pairs and stripes; composite-key partitioning, secondary sort, joins, multi-job pipelines; co-occurrence matrices and relative frequencies; clustering, HAC, K-means and iterative MapReduce programming; rubric-based Assignment 1 verification and post-marking design lessons; deterministic decimal aggregation; submission-artifact version control and visual QA; Pig/Hive, including efficient Pig dataflow design, parameters and Jython UDFs; Mahout/Solr/Storm, Spark RDDs and Spark Streaming, including DStreams, HDFS file streams, `foreachRDD` output, `updateStateByKey` and checkpointing; Assignment 2 Pig runbook, EMR verification and submission set; Assignment 3 Spark Streaming runbook and submission set.
 
 This is a living revision paper. Part I develops understanding in lecture order and finishes each covered week with active-recall questions. Part II is the shortest practical and exam-ready reference.
 
@@ -1088,24 +1088,53 @@ RDD transformations such as `map`, `flatMap` and `filter` are lazy and build a c
 
 </details>
 
-## Week 10 — Spark Streaming with a socket
+## Week 10 — Spark Streaming: DStreams, file streams and state
 
-The lab builds a Scala/Maven executable JAR, uploads it to an EMR master, then connects a Spark Streaming word counter to a text server such as Netcat. The supplied example uses one-second batches: each newline-delimited input line is split into words, each word emits `(word, 1)`, and `reduceByKey` groups equal words across the batch and sums their counts. This key grouping may shuffle data; `print()` writes the batch counts to the driver console, with no promised output order. The Week 10 broadcast and accumulator examples are marked selective material and are not prerequisites for Assignment 2.
+The lab builds a Scala/Maven executable JAR, uploads it to an EMR master, then connects a Spark Streaming word counter to a text server such as Netcat. The supplied example uses one-second batches: each newline-delimited input line is split into words, each word emits `(word, 1)`, and `reduceByKey` groups equal words across the batch and sums their counts. This key grouping may shuffle data; `print()` writes the batch counts to the driver console, with no promised output order. The Week 10 broadcast and accumulator examples are marked selective material.
+
+### A DStream is one RDD per batch
+
+A `StreamingContext(conf, Seconds(n))` cuts the input into batch intervals. A **DStream** is the sequence of RDDs, one per interval. A DStream transformation such as `map` or `reduceByKey` is applied to every batch RDD, so per-batch logic is ordinary RDD logic.
+
+`foreachRDD` is the general **output operation**. Its body runs on the **driver** once per batch and receives that batch's RDD. Driver-side decisions belong there: skip an empty RDD with `rdd.isEmpty()`, or choose the next output folder. RDD actions called inside it, such as `saveAsTextFile`, still run on the executors.
+
+### Reading new files from HDFS
+
+`ssc.textFileStream(dir)`, or `ssc.fileStream[LongWritable, Text, TextInputFormat](dir, filter, newFilesOnly = true)`, lists the directory every batch. It reads only files whose modification time is newer than the start of the stream. Files present before `ssc.start()` are ignored, so a test must add files while the job runs.
+
+`hadoop fs -put` first writes `name._COPYING_` and then renames it. A `fileStream` path filter that rejects `._COPYING_` names ensures each file is read once, complete.
+
+### Stateful processing with `updateStateByKey`
+
+| | Per-batch (`reduceByKey`) | Stateful (`updateStateByKey`) |
+|---|---|---|
+| Memory | only the current batch | one state value per key since the start |
+| Function | `(V, V) => V` | `(Seq[V], Option[S]) => Option[S]` |
+| Called for | keys in this batch | every key in the state **or** in this batch |
+| Needs | nothing | `ssc.checkpoint(dir)` |
+
+For a key that did not occur in the batch, the function receives an empty `Seq`. Returning `None` removes the key. The state RDD's lineage grows every batch, so Spark checkpoints it to HDFS periodically. The recommended interval is 5–10 × the batch interval, set with `stateStream.checkpoint(Seconds(15))`.
+
+When checkpointing is on, Spark serializes the whole DStream graph. Functions passed to DStreams must therefore be serializable. Do not reference the `StreamingContext` inside `foreachRDD`; use `rdd.sparkContext`.
+
+> **Material gap:** the Week 10 lecture slides (Spark Streaming 1) and all Week 11 material (Spark Streaming 2, the `spark-submit`/HDFS monitoring practical) are not stored locally. This section is based on the Week 10 lab, the A3 brief and the Spark Streaming API.
 
 ### Active recall — Week 10
 
-1. What is the socket input to `SocketWordCount`?
-2. What key-value pair does the word-count transformation emit?
-3. What does `reduceByKey` do for one batch?
-4. Does the Week 10 lab belong to the Assignment 2 Pig/Jython toolchain?
+1. What is a DStream, and how does a DStream `map` relate to RDDs?
+2. Where does the body of `foreachRDD` run, and why does that matter?
+3. Why does a file stream ignore a file that was already in the directory when the job started?
+4. When is the `updateStateByKey` function called with an empty `Seq`, and what must be configured before using it?
+5. Why should a state stream be checkpointed only every few batches?
 
 <details>
 <summary>Show answers</summary>
 
-1. Newline-delimited text arriving from a host and port, for example from Netcat.
-2. `(word, 1)` for each word in the input batch.
-3. It groups equal words and sums their values to produce per-word counts for that batch.
-4. No. It is a separate Spark Streaming exercise; Assignment 2 specifies Pig and Jython.
+1. A sequence of RDDs, one per batch interval; the `map` is applied to each batch RDD.
+2. On the driver, once per batch. Driver-side state such as output counters can be kept there, and the empty-batch check happens before any output is written.
+3. It reads only files whose modification time is newer than the stream's start, so it processes newly arriving files only.
+4. For a key that is in the state but did not occur in this batch. `ssc.checkpoint(dir)` must be set.
+5. Checkpointing writes the state to HDFS. Doing it every batch is costly, but never doing it lets the lineage grow without bound; 5–10 batch intervals is the usual balance.
 
 </details>
 
@@ -1756,3 +1785,51 @@ s4271512_PG.doc   ← filled A2 work-log template saved as Word 97 .doc, uploade
 Week 10 is not an A2 prerequisite. Its lab is Spark Streaming with a socket word-count example. Broadcast and accumulator are presented as selective Spark topics and are not needed for this Pig assignment. Week 9 Spark Basics is also outside the A2 toolchain.
 
 **UDF documentation version note:** the Canvas overview links Pig UDF documentation 0.17.0, while the detailed specification cites 0.18.0; the local guide is 0.17.0. The course EMR cluster runs Pig 0.17.0 on Hadoop 3.4.2 (checked 27 September 2026), so the 0.17.0 guide is the matching reference.
+
+## 15. Assignment 3 Spark Streaming runbook and submission gate (COSC2637, 2026)
+
+`2026A3.pdf` requires one Scala object, `streaming.a3`, in one `.scala` file. The job monitors an HDFS directory with 3-second batches and writes Task 1–3 output after every batch that has data. The source is `Assignment 3/a3-project/src/main/scala/streaming/a3.scala`.
+
+The course EMR (emr-7.13.0, checked 25 October 2026) runs Spark 3.5.6, Scala 2.12.18 and Java 17. Compile against these versions with Spark as `provided`; `a3.jar` then contains only the project classes (about 30 KB).
+
+### EMR master: run and test
+
+```bash
+hdfs dfs -rm -r -f /input /output; hdfs dfs -mkdir -p /input
+spark-submit --class streaming.a3 --master yarn --deploy-mode client a3.jar hdfs:///input hdfs:///output 250 &
+# wait until the YARN application is RUNNING, then add files while it runs:
+hdfs dfs -put querylog_001.csv /input/
+hadoop fs -cat '/output/task1-001/*'
+kill -TERM <SparkSubmit pid>      # a background job in a script ignores SIGINT
+```
+
+### Data flow and code patterns
+
+```text
+new file -> lines -> parseRecord (skip header/malformed, clean text, drop empty) -> records (cached)
+  Task 1  (query,1L) -> reduceByKey -> batchCounts (cached) -> sort -> task1-NNN
+  Task 2  filter rt > threshold -> reduceByKey(count,sum,max,users) -> severity -> sort -> task2-NNN
+  Task 3  batchCounts -> updateStateByKey(QueryStats) -> takeOrdered(10) -> task3-NNN
+```
+
+| Need | Pattern |
+|---|---|
+| Write only non-empty batches | `foreachRDD { rdd => if (!rdd.isEmpty()) ... }` |
+| Folders `task1-001`, `-002`, … | per-task counter on the driver, incremented only when output is written |
+| Globally ordered output without one bottleneck partition | `sortBy(key)` range-partitions: `part-00000`, `part-00001`, … hold consecutive ranges, so `cat taskN-NNN/*` is in order (the same lesson as the A1 marker's rejection of single-reducer designs) |
+| Multi-key sort with DESC fields | negate the numbers in a tuple: `(-count, query)` |
+| Top 10 from a large state | `rdd.takeOrdered(10)(ordering)`, never a full sort and `collect` |
+| PG: no Task 3 output when idle | write only if some key has `currentBatchCount > 0` |
+| Exact two-decimal average | `BigDecimal(sum) / count` with `setScale(2, HALF_UP)` |
+
+`trend_status` is `NEW` when the state was empty, `INCREASED` when the key occurred in this batch, and `UNCHANGED` otherwise.
+
+### Assignment 3 submission set
+
+```text
+s4271512_PG.zip   ← a3.jar and a3.scala only, flat
+s4271512_PG.pdf   ← plain monospaced copy of a3.scala for Turnitin, uploaded separately
+s4271512_PG.doc   ← filled A3 work-log template saved as Word 97 .doc, uploaded separately
+```
+
+The 25 October 2026 EMR run used the exact `spark-submit` command from the brief. Outputs `task1/2/3-001` and `-002` matched Appendix A line for line. A third file tested a comma inside a quoted query, a query that is empty after cleaning, CRLF line endings, `response_time_ms = 250` (not slow, because the rule is strictly greater) and a maximum of exactly 500 (`CRITICAL`, because the rule is `>=`). Idle batches and a header-only file produced no output folder.

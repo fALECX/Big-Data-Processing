@@ -1,0 +1,7 @@
+query_id,user_id,query_text,event_time,device,result_count,response_time_ms
+q018,u015,How to do it?,2026-05-01T09:01:02Z,mobile,0,800
+q019,u016,"Spark, Streaming & Scala!",2026-05-01T09:01:03Z,desktop,9,250
+q020,u017,Kafka Streaming,2026-05-01T09:01:04Z,tablet,2,500
+q021,u009,kafka   streaming!!,2026-05-01T09:01:05Z,mobile,1,251
+q022,u018,Slow database query,2026-05-01T09:01:06Z,desktop,3,499
+q023,u019,Apache Flink windows,2026-05-01T09:01:07Z,desktop,4,260

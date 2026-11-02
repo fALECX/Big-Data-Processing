@@ -1,0 +1,94 @@
+[11:03:49] put querylog_001.csv
+[11:04:04] put querylog_002.csv
+[11:04:18] put header_only.csv (no valid records -> no output)
+[11:04:32] put querylog_003.csv
+== exit code 143
+== hdfs dfs -ls /output
+items
+/output/task1-001
+/output/task1-002
+/output/task1-003
+/output/task2-001
+/output/task2-002
+/output/task2-003
+/output/task3-001
+/output/task3-002
+/output/task3-003
+== hadoop fs -cat /output/task1-001/*
+hadoop mapreduce example,2
+spark streaming scala,2
+apache hive tutorial,1
+pig latin udf,1
+slow database query,1
+spark streaming,1
+   files: _SUCCESS part-00000 part-00001 
+== hadoop fs -cat /output/task1-002/*
+hadoop mapreduce example,2
+kafka streaming,2
+slow database query,2
+apache hive tutorial,1
+pig latin udf,1
+spark streaming scala tutorial,1
+   files: _SUCCESS part-00000 part-00001 
+== hadoop fs -cat /output/task1-003/*
+kafka streaming,2
+apache flink windows,1
+slow database query,1
+spark streaming scala,1
+   files: _SUCCESS part-00000 part-00001 
+== hadoop fs -cat /output/task2-001/*
+slow database query,1,610,610.00,1,CRITICAL
+hadoop mapreduce example,2,520,415.00,1,CRITICAL
+   files: _SUCCESS part-00000 part-00001 
+== hadoop fs -cat /output/task2-002/*
+hadoop mapreduce example,2,720,535.00,1,CRITICAL
+slow database query,2,530,510.00,2,CRITICAL
+kafka streaming,2,280,270.00,2,WARNING
+   files: _SUCCESS part-00000 part-00001 
+== hadoop fs -cat /output/task2-003/*
+kafka streaming,2,500,375.50,2,CRITICAL
+slow database query,1,499,499.00,1,WARNING
+apache flink windows,1,260,260.00,1,WARNING
+   files: _SUCCESS part-00000 part-00001 
+== hadoop fs -cat /output/task3-001/*
+hadoop mapreduce example,2,0,2,2,NEW
+spark streaming scala,2,0,2,2,NEW
+apache hive tutorial,1,0,1,1,NEW
+pig latin udf,1,0,1,1,NEW
+slow database query,1,0,1,1,NEW
+spark streaming,1,0,1,1,NEW
+   files: _SUCCESS part-00000 
+== hadoop fs -cat /output/task3-002/*
+hadoop mapreduce example,2,2,4,2,INCREASED
+slow database query,2,1,3,2,INCREASED
+kafka streaming,2,0,2,2,NEW
+apache hive tutorial,1,1,2,1,INCREASED
+pig latin udf,1,1,2,1,INCREASED
+spark streaming scala,0,2,2,0,UNCHANGED
+spark streaming scala tutorial,1,0,1,1,NEW
+spark streaming,0,1,1,0,UNCHANGED
+   files: _SUCCESS part-00000 
+== hadoop fs -cat /output/task3-003/*
+kafka streaming,2,2,4,2,INCREASED
+slow database query,1,3,4,1,INCREASED
+hadoop mapreduce example,0,4,4,0,UNCHANGED
+spark streaming scala,1,2,3,1,INCREASED
+apache hive tutorial,0,2,2,0,UNCHANGED
+pig latin udf,0,2,2,0,UNCHANGED
+apache flink windows,1,0,1,1,NEW
+spark streaming,0,1,1,0,UNCHANGED
+spark streaming scala tutorial,0,1,1,0,UNCHANGED
+   files: _SUCCESS part-00000 
+== checkpoint dir
+Found 12 items
+-rw-r--r--   1 hadoop hdfsadmingroup       9518 2026-10-25 11:04 /s4271512/checkpoint/checkpoint-1792926282000
+-rw-r--r--   1 hadoop hdfsadmingroup       9531 2026-10-25 11:04 /s4271512/checkpoint/checkpoint-1792926282000.bk
+-rw-r--r--   1 hadoop hdfsadmingroup       9520 2026-10-25 11:04 /s4271512/checkpoint/checkpoint-1792926285000
+-rw-r--r--   1 hadoop hdfsadmingroup       9526 2026-10-25 11:04 /s4271512/checkpoint/checkpoint-1792926285000.bk
+== errors in run.log
+26/10/25 11:04:52 WARN ReceivedBlockTracker: Exception thrown while writing record: BatchCleanupEvent(Vector()) to the WriteAheadLog.
+java.lang.IllegalStateException: close() was called on BatchedWriteAheadLog before write request with time 1792926292092 could be fulfilled.
+26/10/25 11:04:54 WARN ReceivedBlockTracker: Exception thrown while writing record: BatchCleanupEvent(Vector()) to the WriteAheadLog.
+java.lang.IllegalStateException: close() was called on BatchedWriteAheadLog before write request with time 1792926294859 could be fulfilled.
+
+[exited with code 0]
