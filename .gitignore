@@ -4,22 +4,15 @@
 *.key
 .env
 
-# Installers, binaries, and tool downloads
-Environment Setup/
-*.exe
-*.msi
-*.jar
+# Installers
+Environment Setup/*.exe
+Environment Setup/*.msi
 
 # Local scratch and caches
 tmp/
+.claude/
 __pycache__/
 *.pyc
-
-# Re-downloadable course materials (lecture slides, reference books, lab zips)
-Reference/
-Week */**/*.pdf
-Week */**/*.zip
-Assignment */References/
 
 # Duplicate downloads
 Week 10/Duplicate downloads - identical copies/
