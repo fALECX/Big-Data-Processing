@@ -1,0 +1,32 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 791 >>
+stream
+BT /F1 9.5 Tf 12 TL 40 800 Td (Week 10 - Pre-lecture) Tj T* () Tj T* (Week 10 - Learning Materials and Activities) Tj T* () Tj T* (Pre-lecture) Tj T* () Tj T* (Do the following tasks before lectorial class and practical class you enrolled to participate.) Tj T* () Tj T* (Watch) Tj T* () Tj T* (Week 10 Lecture Recording Part 1 - Scala Basics 1 ) Tj T* ( \(Links to an external site.\)) Tj T* () Tj T* (Week 10 Lecture Recording Part 2 - Scala Basics 2 and Execute Scala Programs  \(Links to an) Tj T* (external site.\)) Tj T* () Tj T* (Read) Tj T* () Tj T* (The reading for this week features Spark streaming   ) Tj T* () Tj T* (Requested reading) Tj T* () Tj T* (in-class scala exercise.pdf ) Tj T* () Tj T* (Recommended reading) Tj T* () Tj T* (Spark Streaming Programming Guide) Tj T* ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000212 00000 n 
+0000000338 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1180
+%%EOF

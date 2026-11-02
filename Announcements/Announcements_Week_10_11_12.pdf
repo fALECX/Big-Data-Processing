@@ -1,0 +1,43 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R 6 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2655 >>
+stream
+BT /F1 9.5 Tf 12 TL 40 800 Td (Announcements Week_10_11_12 - Big Data Processing) Tj T* () Tj T* (=== Week 12 Q&A Sessions \(2026-10-07\) ===) Tj T* (Hi all,) Tj T* () Tj T* (Since we do not have tutorial material scheduled for Week 12, we will use Week 12 as a Q&A) Tj T* (week.) Tj T* () Tj T* (Three Q&A sessions will be available:) Tj T* () Tj T* (- ) Tj T* (Monday, 10:30 AM - 14.10.030) Tj T* () Tj T* (- ) Tj T* (Tuesday, 4:30 PM - Online via Collaborate Ultra) Tj T* () Tj T* (- ) Tj T* (Friday, 10:30 AM - 08.08.045) Tj T* () Tj T* (The regular practical classes run by Ke and Xikun in Week 12 will not take place. ) Tj T* () Tj T* (However, Ke's online lectorial \(Tuesday 12:30\) will run as usual. Ke will talk about A4 during) Tj T* (the lectorial. DO NOT MISS THIS CLASS!!!!) Tj T* () Tj T* (Please attend any of the Q&A sessions above if you need help or have questions.) Tj T* () Tj T* (During the sessions, I will also talk about A4 and, for a bit of fun, we will solve the) Tj T* (following puzzle:) Tj T* () Tj T* (You have 1,000 bottles, and exactly one bottle contains a non-fatal poison. The poison takes 59) Tj T* (minutes to take effect, and you have only 60 minutes in total, so you can perform only one) Tj T* (round of testing.) Tj T* (What is the minimum number of mice required to identify the poisoned bottle?) Tj T* () Tj T* (Regards,) Tj T* () Tj T* (COSC2633/2637 Teaching Team) Tj T* () Tj T* (=== Week 11 practical class: monitoring HDFS \(2026-10-01\) ===) Tj T* (Hi all,) Tj T* () Tj T* (Do not skip Week 11 tutorial class, it offers a starting point for your A3.) Tj T* () Tj T* (We will learn how to use spark-submit command, which is a powerful tool for running Spark) Tj T* (applications locally or in a cluster. Note: we do not use HUE this year, please always use) Tj T* ("hadoop fs -put" to upload files to your HDFS :-\)Links to an external site.  ) Tj T* () Tj T* (We'll discuss A3 in the tutorial; please read the spec beforehand and bring your questions.) Tj T* () Tj T* (We are looking forward to seeing you all in the classes. ) Tj T* () Tj T* (COSC2633/2637 Teaching Team) Tj T* () Tj T* (=== Week 10 practical class: Scala Maven Project on IntelliJ IDEA \(2026-09-24\) ===) Tj T* (Hi all,) Tj T* () Tj T* (We provided a step-by-step demonstration during the Week 9 online practical. If you are still) Tj T* (having difficulty completing the Week 9 lab exercise, please follow the class recording) Tj T* (available in CU, as it walks through the required steps in detail.) Tj T* () Tj T* (We will create an executable Jar for monitoring a socket on localhost in Week 10 practical) Tj T* (class.) Tj T* ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 910 >>
+stream
+BT /F1 9.5 Tf 12 TL 40 800 Td () Tj T* (You will first need to run Netcat \(a small utility found in most Unix-like systems\) as a data) Tj T* (server by using) Tj T* () Tj T* (nc -lk 9999) Tj T* () Tj T* (Then, in a different terminal, you can start the example by using) Tj T* () Tj T* (java -jar count-week8.jar localhost 9999) Tj T* () Tj T* (Any lines typed in the terminal running the netcat server will be counted and printed on screen) Tj T* (every second.) Tj T* () Tj T* (We will look at:) Tj T* () Tj T* (- How to use SparkConf to provide configuration parameters. ) Tj T* () Tj T* (- How to create a SocketTextStream DStream that represents streaming data from a TCP source.) Tj T* () Tj T* (- Difference between RDD and DStream.) Tj T* () Tj T* (- streamingContext.start\(\) and streamingContext.awaitTermination\(\)) Tj T* () Tj T* (Regards,) Tj T* () Tj T* (COSC2633/2637 Teaching Team) Tj T* ET
+endstream
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000121 00000 n 
+0000000218 00000 n 
+0000000344 00000 n 
+0000003051 00000 n 
+0000003177 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R >>
+startxref
+4138
+%%EOF

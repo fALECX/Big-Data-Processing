@@ -1,31 +1,28 @@
 {
   "project": "Big Data Processing",
-  "updated_at": "2026-10-25",
+  "updated_at": "2026-11-02",
   "memory_policy": "Use native harness memory for observations; promote only reviewed, repeated, project-specific rules.",
   "routing_policy": "Use a planner for ambiguity, an implementer for changes, and a reviewer for focused verification; default concurrency is one.",
   "last_inventory": {
     "scope": "Full course inventory against the Canvas schedule (L1 course overview) and Canvas announcement emails",
-    "result": "Weeks 1-9 and Assignments 1-2 are complete locally. Assignment 3 files were copied from Downloads into Assignment 3/. Week 10 lecture slides, all Week 11 material and the Week 12 A4 lectorial recording are not stored locally.",
+    "result": "Weeks 1-12, A3 FAQ/announcements and Week 7 join_task files are now local (added 2 Nov 2026 from BigData_DigitalTwin_komplett).",
     "observations": [
       "Assessment: A1, A2, A3 and A4 at 25% each; no final exam (L1 p.51).",
       "A3 due 25 Oct 2026 23:59; local 2026A3.pdf is the 6 Oct revision with the updated Appendix A (outputs are images).",
       "A3 sample CSVs include a header row that the job must skip.",
       "A4 is a 2-hour Canvas quiz in Respondus LockDown Browser, open 00:01 Mon 2 Nov to 00:01 Tue 3 Nov 2026 (Melbourne); the LockDown practice quiz is mandatory beforehand.",
       "Week 12 has no tutorial material; it is a Q&A week. Ke's Tue 13 Oct lectorial covered A4.",
-      "The Week 11 practical (spark-submit, monitoring HDFS) is the stated starting point for A3."
+      "The Week 11 practical (spark-submit, monitoring HDFS) is the stated starting point for A3.",
+      "A4 (2 Nov 00:01 - 3 Nov 00:01): 8 questions - Q1 Scala code (2), Q2 MR code (2.5), Q3 MR Q&A (3), Q4 Scala code (3), Q5 MR Q&A (2.5), Q6 MR code (4), Q7 Pig code (4), Q8 MR pseudocode (4). No AI, no EMR."
     ],
     "course_material_gaps": [
-      "Week 10 lecture slides (Spark Streaming 1) are missing; only the lab and examples are local.",
-      "Week 11 lecture (Spark Streaming 2), practical handout and code are missing.",
-      "Week 12 A4 lectorial recording/notes are not local.",
-      "Week 7 join_task1.pig and join_task2.pig remain unlocated (optional)."
+      "Week 12 A4 lectorial recording (Ke, 13 Oct) is not local; the Week 12 revision slides p16-30 list the A4 format.",
+      "Canvas weekly quizzes and the LockDown practice quiz are not local."
     ],
     "integrity_checks": [
       "Copied A3 files are SHA-256 identical to the Downloads originals."
     ],
-    "open_assignment_download_gaps": [
-      "Any A3 FAQ discussion on Canvas has not been checked."
-    ]
+    "open_assignment_download_gaps": []
   },
   "a3_submission": {
     "status": "Built and EMR-verified on 25 Oct 2026; upload to Canvas is the user's action.",

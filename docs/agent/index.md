@@ -16,7 +16,7 @@
 - `Week 7/` contains Pig/Hive lecture and tutorial material with the tutorial's sample datasets.
 - `Week 8/` contains Mahout, Solr, and Storm lecture material plus the Mahout Java example, input data, and job JAR.
 - `Week 9/` contains Spark Basics, the first Spark/IntelliJ lab, Scala exercises, and the Three Little Pigs sample.
-- `Week 10/` contains the Spark Streaming/socket lab, its code examples, and the accumulator sample input.
+- `Week 10/` to `Week 12/` contain Spark Streaming lectures, labs, examples and the Week 12 revision slides (A4 format on p16-30). `Announcements/` and `Assignment 3/References/` hold the Canvas announcements and the A3 FAQ.
 - `Summary and Learning Sheet/Big Data Processing - Learning Summary and Cheat Sheet.md` is the canonical course learning paper.
 - `Summary and Learning Sheet/Lernplan - A3 und A4.md` is the user-requested study plan for A3 (due 25 Oct) and the A4 timed assessment (2 Nov 2026).
 - `Reference/` contains general reference books.

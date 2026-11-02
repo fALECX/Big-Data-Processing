@@ -1,0 +1,32 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 1999 >>
+stream
+BT /F1 9.5 Tf 12 TL 40 800 Td (week-11-online-lectorial-and-lab) Tj T* () Tj T* (Week 11 - Learning Materials and Activities) Tj T* (Lectorial  and practical class) Tj T* () Tj T* ( ) Tj T* () Tj T* (Make sure you have completed any pre-lecture learning before lectorial class.) Tj T* () Tj T* (Lectorial Class) Tj T* (Weekly Quiz) Tj T* (Lectorial Notes) Tj T* (Actions) Tj T* (Lectorial Recording) Tj T* (Links to an external site.) Tj T* (Practical Class) Tj T* (Practical Task Specification) Tj T* (Lab week 11 - Scala Maven Intellij - monitoring HDFS) Tj T* (Actions) Tj T* (NetworkWordCount.scala) Tj T* (Download NetworkWordCount.scala) Tj T* ( ) Tj T* (3littlepigs.txt) Tj T* (Download 3littlepigs.txt) Tj T* (Think about how can updateStateByKey\(\)be used to maintain state across batches and print the) Tj T* (accumulated count for each word? ) Tj T* () Tj T* (LINKS:) Tj T* (- Weekly Quiz: https://rmit.instructure.com/courses/158408/quizzes/779367) Tj T* (- Lectorial Notes: https://rmit.instructure.com/courses/158408/files/56588306?wrap=1) Tj T* (- Download: https://rmit.instructure.com/courses/158408/files/56588306/download?download_frd=1) Tj T* (- Lectorial RecordingLinks to an external site.:) Tj T* (https://au-lti.bbcollab.com/recording/4665216c6c414c8dab28ddb8cd44aa57) Tj T* (- Lab week 11 - Scala Maven Intellij - monitoring HDFS:) Tj T* (https://rmit.instructure.com/courses/158408/files/56398778?wrap=1) Tj T* (- Download: https://rmit.instructure.com/courses/158408/files/56398778/download?download_frd=1) Tj T* (- NetworkWordCount.scala: https://rmit.instructure.com/courses/158408/files/54727964?wrap=1) Tj T* (- Download NetworkWordCount.scala: https://rmit.instructure.com/courses/158408/files/54727964/d) Tj T* (ownload?download_frd=1) Tj T* (- 3littlepigs.txt: https://rmit.instructure.com/courses/158408/files/54727102?wrap=1) Tj T* (- Download 3littlepigs.txt: https://rmit.instructure.com/courses/158408/files/54727102/download) Tj T* (?download_frd=1) Tj T* ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000212 00000 n 
+0000000338 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+2389
+%%EOF

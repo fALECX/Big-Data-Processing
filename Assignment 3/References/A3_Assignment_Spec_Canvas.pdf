@@ -1,0 +1,54 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R 6 0 R 8 0 R] /Count 3 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2182 >>
+stream
+BT /F1 9.5 Tf 12 TL 40 800 Td (Query Log Analysis Using Spark Streaming) Tj T* () Tj T* (Due: 2026-10-25T12:59:59Z  Points: 25) Tj T* (URL: https://rmit.instructure.com/courses/158408/assignments/1274884) Tj T* () Tj T* (Assignment Three ) Tj T* () Tj T* ( | ) Tj T* (Assignment name: Query Log Analysis Using Spark Streaming) Tj T* () Tj T* (Course code: COSC2633/2637) Tj T* () Tj T* (Weighting: 25/100) Tj T* () Tj T* (Due date: 25/10 at 23:59) Tj T* () Tj T* ( | ) Tj T* () Tj T* (1. Course Learning Outcomes Assessed) Tj T* () Tj T* (This assessment supports the following learning outcomes:) Tj T* () Tj T* (- CLO 1 - Model and implement efficient big data solutions for various application areas using) Tj T* (appropriately selected algorithms and data structures.) Tj T* () Tj T* (- CLO 2 - Analyse methods and algorithms, to compare and evaluate them with respect to time and) Tj T* (space requirements and make appropriate design choices when solving real-world problems.) Tj T* () Tj T* (- CLO 4 - Explain the Big Data Fundamentals, including the evolution of Big Data, the) Tj T* (characteristics of Big Data and the challenges introduced.) Tj T* () Tj T* (- CLO 5 - Apply non-relational databases, the techniques for storing and processing large) Tj T* (volumes of structured and unstructured data, as well as streaming data.) Tj T* () Tj T* (- CLO 6 - Apply the novel architectures and platforms introduced for Big data, e., Hadoop,) Tj T* (MapReduce and Spark.) Tj T* () Tj T* ( | ) Tj T* () Tj T* (2. Overview of Assessment) Tj T* () Tj T* (Write Spark programs which gives you a chance to apply the essential components you learned in) Tj T* (lectures and to understand the complexity of Spark programming.) Tj T* () Tj T* ( | ) Tj T* () Tj T* (3. Assessment Tasks) Tj T* () Tj T* (Follow the steps below to get started on this assessment task:) Tj T* () Tj T* (- A3 Specification  \(Appendix A - Sample Output has been updated on 05/10\)) Tj T* () Tj T* (- querylog_001.csv ) Tj T* () Tj T* (- querylog_002.csv ) Tj T* () Tj T* (- A3_GroupLeaderStudentID_GroupNumber_UGorPG_worklog.docx ) Tj T* () Tj T* ( | ) Tj T* () Tj T* (4. Group Assessment) Tj T* () Tj T* ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 3588 >>
+stream
+BT /F1 9.5 Tf 12 TL 40 800 Td (Groups must be formed by 2 or 3 students who are enrolled at the same level \(either all) Tj T* (Undergraduate COSC2633  or all Postgraduate COSC2637\). All members are expected to contribute) Tj T* (equally. Unless a contribution dispute is reported \(and supported by the work log\), all group) Tj T* (members will receive the same grade. ) Tj T* () Tj T* (Individual work is permitted but not encouraged. Please note that no bonus marks will be) Tj T* (awarded for completing the work individually. ) Tj T* () Tj T* (- Navigate to People in Canvas, then select the Groups tab. Scroll past the A1 and A2 groups) Tj T* (until you reach the A3 group section. Choose an empty A3 group and join it together with your) Tj T* (group members. ) Tj T* () Tj T* (- Please do not use your A1 or A2 group for this assessment. You may keep the same team) Tj T* (members, but you must join a A3 group.) Tj T* () Tj T* (- Canvas groups are intended only for students completing the assignment in groups of two or) Tj T* (three. Students completing the assignment individually do not need to join a Canvas group.) Tj T* () Tj T* (Please note that it is each student's responsibility to ensure they have successfully joined) Tj T* (the Canvas group before commencing work on Assessment 3.) Tj T* () Tj T* (Group membership should be confirmed by individual students before work begins. The team) Tj T* (leader's role is generally to verify the group composition before and after submission.) Tj T* (However, this does not remove each team member's responsibility to ensure that they are) Tj T* (correctly registered in the group throughout the assessment period.) Tj T* () Tj T* (Detailed requirements and instructions can be found in the assignment specification document.) Tj T* () Tj T* ( | ) Tj T* () Tj T* (5. Submission Instructions) Tj T* () Tj T* (Detailed requirements and instructions can be found in the assignment specification document.) Tj T* () Tj T* (Students who choose to complete the assessment collaboratively but fail to correctly form their) Tj T* (group before the submission deadline will receive a 10% penalty \(2.5 marks\).) Tj T* () Tj T* (Groups are intended for collaborative work only. Students who complete and submit the) Tj T* (assessment individually but join a group will also receive a 10% penalty \(2.5 marks\).) Tj T* () Tj T* (Final Submission Warning) Tj T* () Tj T* (Please verify your submission carefully before the deadline. Ensuring that the correct files) Tj T* (have been submitted is the responsibility of the entire group, not just the group leader. All) Tj T* (group members are expected to check that the submission is complete, correct, and submitted) Tj T* (before the deadline.) Tj T* () Tj T* (Groups will be locked 72 hours before the deadline.  You must finalise and verify your group) Tj T* (membership before submission and only submit after groups are locked. Please do not submit your) Tj T* (assignment until the groups have been finalised and locked. ) Tj T* () Tj T* (- You must submit 3 files: the zip file, the doc file, and the pdf file for Turnitin plagiarism) Tj T* (check.) Tj T* () Tj T* (- Failure to submit the required pdf/doc file separately from the zip file will result in a 10%) Tj T* (penalty \(2.5 marks\).) Tj T* () Tj T* (- Submissions that do not include the required PDF or Word document will incur a 10% penalty) Tj T* (for each missing file \(2.5 marks per file\).) Tj T* () Tj T* (- Submissions where the PDF fails the Turnitin plagiarism check, will not be graded.) Tj T* () Tj T* ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1233 >>
+stream
+BT /F1 9.5 Tf 12 TL 40 800 Td (- Please verify your submission carefully before the deadline. If you submit the wrong file,) Tj T* (a corrupted zip file, or a submission that does not comply with the required file structure,) Tj T* (any resubmission made after the deadline will be subject to the standard late submission) Tj T* (penalty.) Tj T* () Tj T* (- Late submission penalties are applied automatically by the system based on the assessment due) Tj T* (date and the time of submission. The penalty is determined by when you submit your work, not) Tj T* (when you complete it. Therefore, even if you completed the assessment before the due date, a) Tj T* (late submission would still incur the applicable late penalty.) Tj T* () Tj T* (- Work must run on the RMIT?provided EMR.) Tj T* () Tj T* (- Please note that markers will not modify or adjust submitted code during marking.) Tj T* () Tj T* (- Your submission must exclude the IntelliJ project folder - failure to do so carries a 10%) Tj T* (penalty.) Tj T* () Tj T* ( | ) Tj T* () Tj T* (5. Assessment Criteria) Tj T* () Tj T* (The marking criteria are included in the assignment specification. Please refer to the rubric) Tj T* (for the detailed mark breakdown.) Tj T* ET
+endstream
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000127 00000 n 
+0000000224 00000 n 
+0000000350 00000 n 
+0000002584 00000 n 
+0000002710 00000 n 
+0000006350 00000 n 
+0000006476 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+7761
+%%EOF

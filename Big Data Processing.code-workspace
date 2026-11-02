@@ -5,6 +5,24 @@
 		},
 		{
 			"path": "../../.ssh"
+		},
+		{
+			"path": "../BigData_DigitalTwin_komplett/Week_10"
+		},
+		{
+			"path": "../BigData_DigitalTwin_komplett/Week_11"
+		},
+		{
+			"path": "../BigData_DigitalTwin_komplett/Week_12"
+		},
+		{
+			"path": "../BigData_DigitalTwin_komplett/A3"
+		},
+		{
+			"path": "../BigData_DigitalTwin_komplett/Announcements"
+		},
+		{
+			"path": "../BigData_DigitalTwin_komplett/Week_07"
 		}
 	],
 	"settings": {}

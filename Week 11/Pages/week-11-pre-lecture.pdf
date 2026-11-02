@@ -1,0 +1,43 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R 6 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2290 >>
+stream
+BT /F1 9.5 Tf 12 TL 40 800 Td (week-11-pre-lecture) Tj T* () Tj T* (Week 11 - Learning Materials and Activities) Tj T* (Pre-lecture) Tj T* () Tj T* ( ) Tj T* () Tj T* (Do the following tasks before lectorial class and practical class you enrolled to participate.) Tj T* () Tj T* ( ) Tj T* () Tj T* ( ) Tj T* () Tj T* (Watch) Tj T* () Tj T* ( ) Tj T* () Tj T* (Week 11 Lecture Recording Part 1 - Spark Streaming Basics) Tj T* (Links to an external site.) Tj T* ( \(Links to an external site.\)) Tj T* () Tj T* (Week 11 Lecture Recording Part 2 - Spark Streaming Operations) Tj T* (Links to an external site.) Tj T* ( \(Links to an external site.\)) Tj T* () Tj T* (Week 11 Lecture Recording Part 3 - Checkpoint, Shared Variables Spark-submit) Tj T* (Links to an external site.) Tj T* ( \(Links to an external site.\)) Tj T* () Tj T* (Week 11 Lecture Recording Part 4 - Kafka Basics) Tj T* (Links to an external site.) Tj T* () Tj T* ( ) Tj T* () Tj T* ( ) Tj T* () Tj T* (Read) Tj T* () Tj T* ( ) Tj T* () Tj T* (The reading for this week features Spark streaming   ) Tj T* (Recommended reading) Tj T* () Tj T* (Spark Streaming Programming Guide) Tj T* () Tj T* (Previous) Tj T* (Next) Tj T* () Tj T* (LINKS:) Tj T* (- Week 11 Lecture Recording Part 1 - Spark Streaming BasicsLinks to an external site.:) Tj T* (https://rmiteduau-my.sharepoint.com/:v:/g/personal/ke_deng_rmit_edu_au/Eailh9TtSA9OjxCid_Dp1IAB) Tj T* (1agMwviETCYvghKmkzt0iw?e=I9nJ4K) Tj T* (- Week 11 Lecture Recording Part 2 - Spark Streaming OperationsLinks to an external site.:) Tj T* (https://rmiteduau-my.sharepoint.com/:v:/g/personal/ke_deng_rmit_edu_au/ES4POHCVg1lNiTexHuBniJ4B) Tj T* (9ybRvKv6cKEIm4Rk-825_g?e=UJaNz4) Tj T* (- Week 11 Lecture Recording Part 3 - Checkpoint, Shared Variables Spark-submitLinks to an) Tj T* (external site.: https://rmiteduau-my.sharepoint.com/:v:/g/personal/ke_deng_rmit_edu_au/EVhhat7n) Tj T* (4aZGmnyk7K64EeUBf4RLHbotJC3QalQmPHyAmA?e=ZfiVEr) Tj T* (- Week 11 Lecture Recording Part 4 - Kafka BasicsLinks to an external site.:) Tj T* (https://rmiteduau-my.sharepoint.com/:v:/g/personal/ke_deng_rmit_edu_au/Ef5rYVf-wq9HkYekCjTYkooB) Tj T* (zCCLtfr8pkDvLVjJiCSlqg?e=3Sh8TY) Tj T* (- Spark Streaming Programming Guide: https://spark.apache.org/docs/latest/streaming-programming) Tj T* ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 400 >>
+stream
+BT /F1 9.5 Tf 12 TL 40 800 Td (-guide.html#:~:text=Spark%20Streaming%20is%20an%20extension,processing%20of%20live%20data%20str) Tj T* (eams.&text=Spark%20Streaming%20provides%20a%20high,a%20continuous%20stream%20of%20data.) Tj T* (- Previous: https://rmit.instructure.com/courses/158408/modules/items/8688615) Tj T* (- Next: https://rmit.instructure.com/courses/158408/modules/items/8688617) Tj T* ET
+endstream
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000121 00000 n 
+0000000218 00000 n 
+0000000344 00000 n 
+0000002686 00000 n 
+0000002812 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R >>
+startxref
+3263
+%%EOF

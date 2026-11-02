@@ -1,0 +1,43 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R 6 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 1764 >>
+stream
+BT /F1 9.5 Tf 12 TL 40 800 Td (week-12-overview-3) Tj T* () Tj T* (Week 12 - Overview) Tj T* (Welcome to week 12) Tj T* () Tj T* ( ) Tj T* () Tj T* (The week will review all topics learned in this course. ) Tj T* () Tj T* ( ) Tj T* () Tj T* ( ) Tj T* () Tj T* (Learning Outcomes) Tj T* () Tj T* ( ) Tj T* () Tj T* (CLO 1: model and implement efficient big data solutions for various application areas using) Tj T* (appropriately selected algorithms and data structures.) Tj T* (CLO 2: analyse methods and algorithms, to compare and evaluate them with respect to time and) Tj T* (space requirements and make appropriate design choices when solving real-world problems.) Tj T* (CLO 3: motivate and explain trade-offs in big data processing technique design and analysis in) Tj T* (written and oral form.) Tj T* (CLO 4: explain the Big Data Fundamentals, including the evolution of Big Data, the) Tj T* (characteristics of Big Data and the challenges introduced.) Tj T* (CLO 5: apply non-relational databases, the techniques for storing and processing large volumes) Tj T* (of structured and unstructured data, as well as streaming data.) Tj T* (CLO 6: apply the novel architectures and platforms introduced for Big data, i.e., Hadoop,) Tj T* (MapReduce, and Spark.) Tj T* (This Week's Learning Activities) Tj T* () Tj T* (Section	Activity	Duration) Tj T* () Tj T* () Tj T* (Before Class) Tj T* () Tj T* (	) Tj T* () Tj T* (Watch the video lectures and ) Tj T* () Tj T* (Complete reading) Tj T* () Tj T* (	) Tj T* () Tj T* (2 hours) Tj T* () Tj T* () Tj T* () Tj T* () Tj T* (Lectorial & Lab) Tj T* () Tj T* (	) Tj T* () Tj T* (Join the timetabled interactive session) Tj T* () Tj T* (	) Tj T* () Tj T* (2 hours + 2 hours) Tj T* () Tj T* () Tj T* () Tj T* () Tj T* ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 449 >>
+stream
+BT /F1 9.5 Tf 12 TL 40 800 Td (Assessments) Tj T* () Tj T* (	) Tj T* () Tj T* (Working on Assessment) Tj T* () Tj T* (Revisit lectures) Tj T* () Tj T* (	) Tj T* () Tj T* ( 2 hours + 2 hours) Tj T* () Tj T* ( ) Tj T* () Tj T* (Previous) Tj T* (Next) Tj T* () Tj T* (LINKS:) Tj T* (- Previous: https://rmit.instructure.com/courses/158408/modules/items/8907955) Tj T* (- Next: https://rmit.instructure.com/courses/158408/modules/items/8688620) Tj T* ET
+endstream
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000121 00000 n 
+0000000218 00000 n 
+0000000344 00000 n 
+0000002160 00000 n 
+0000002286 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R >>
+startxref
+2786
+%%EOF
