@@ -1,8 +1,8 @@
 # Big Data Processing — Learning Summary and Lab Cheat Sheet
 
-**Last updated:** 25 October 2026
+**Last updated:** 2 November 2026
 
-**Current coverage:** Weeks 1-10 (Week 10 lecture and Week 11 material not local); AWS/EMR and HDFS/YARN foundations; MapReduce execution, including graph shortest paths; Python Streaming; local/weighted aggregation; iterative jobs; pairs and stripes; composite-key partitioning, secondary sort, joins, multi-job pipelines; co-occurrence matrices and relative frequencies; clustering, HAC, K-means and iterative MapReduce programming; rubric-based Assignment 1 verification and post-marking design lessons; deterministic decimal aggregation; submission-artifact version control and visual QA; Pig/Hive, including efficient Pig dataflow design, parameters and Jython UDFs; Mahout/Solr/Storm, Spark RDDs and Spark Streaming, including DStreams, HDFS file streams, `foreachRDD` output, `updateStateByKey` and checkpointing; Assignment 2 Pig runbook, EMR verification and submission set; Assignment 3 Spark Streaming runbook and submission set.
+**Current coverage:** Weeks 1-10 (Week 10 lecture and Week 11 material not local); AWS/EMR and HDFS/YARN foundations; MapReduce execution, including graph shortest paths; Python Streaming; local/weighted aggregation, including per-key averages with a true combiner; iterative jobs; pairs and stripes; composite-key partitioning, secondary sort, joins, multi-job pipelines; co-occurrence matrices and relative frequencies; clustering, HAC, K-means and iterative MapReduce programming; rubric-based Assignment 1 verification and post-marking design lessons; deterministic decimal aggregation; submission-artifact version control and visual QA; Pig/Hive, including efficient Pig dataflow design, parameters and Jython UDFs; Mahout/Solr/Storm, Spark RDDs and Spark Streaming, including DStreams, HDFS file streams, `foreachRDD` output, `updateStateByKey` and checkpointing; Assignment 2 Pig runbook, EMR verification and submission set; Assignment 3 Spark Streaming runbook and submission set.
 
 This is a living revision paper. Part I develops understanding in lecture order and finishes each covered week with active-recall questions. Part II is the shortest practical and exam-ready reference.
 
@@ -440,6 +440,14 @@ Safe combining requires an operation that can be repeatedly regrouped, such as s
 
 There is also a type/shape invariant: because the combiner may run zero times, mapper output must already be valid reducer input. For a mean, emit `(value, 1)` from the mapper; the combiner and reducer can both merge pairs as `(sum₁ + sum₂, count₁ + count₂)`, and only the final reducer divides total sum by total count.
 
+> **Exam pattern: "is this mapper correct?"** A mapper that emits `<taxi_id, charge>` is fine for a reducer-only average, but **wrong once a combiner is required**. If the combiner averages raw charges, the reducer averages averages: taxi `132` with charges `15, 33` on mapper A and `30` on mapper B gives `(24 + 30) / 2 = 27`, but the true mean is `78 / 3 = 26`. If the combiner instead emits `(sum, count)`, the reducer receives a mix of bare charges (where the combiner did not run) and pairs. Fix: the mapper emits `<taxi_id, (charge, 1)>`; the combiner sums both fields and emits the same shape; only the reducer divides. Also mention robustness: skip blank or malformed lines and parse the charge as a number, otherwise one bad line in 10 TB crashes the task.
+
+| Stage | Consumes | Emits |
+|---|---|---|
+| Mapper | `<offset, "taxi_id\tcharge">` | `<taxi_id, (charge, 1)>` |
+| Combiner (0..n times) | `<taxi_id, [(s, c), ...]>` | `<taxi_id, (Σs, Σc)>` |
+| Reducer | `<taxi_id, [(s, c), ...]>` | `<taxi_id, Σs / Σc>` |
+
 **In-mapper combining** aggregates within the mapper itself before emitting. It provides more control and can reduce output further, but its state consumes memory. State preserved across the entire input split is more efficient than rebuilding it for every line, but it must remain bounded enough to fit in memory.
 
 ### Iterative MapReduce and exact weighted aggregation
@@ -557,6 +565,7 @@ Current workspace note: the local `Week 3/w3` folder contains all four required 
 3. How do data locality, speculative execution, and key skew affect execution?
 4. How can weighted duplicate aggregation and a small driver make iterative clustering exact and scalable?
 5. In the lab, how did data move from Windows to HDFS input and finally to reducer output?
+6. Why is a mapper that emits `<taxi_id, charge>` wrong for a per-taxi average that must use a combiner?
 
 <details>
 <summary>Show answers</summary>
@@ -566,6 +575,7 @@ Current workspace note: the local `Week 3/w3` folder contains all four required 
 3. Data locality places map work near HDFS blocks to avoid network transfer. Speculative execution can duplicate an abnormally slow attempt, but key skew gives one reducer genuinely more work and requires a partitioning/algorithm fix.
 4. Emit `(group, item, partial_count)` so duplicates are represented by weights; compute weighted sums/costs in the reducer. A driver reads only bounded group summaries, updates the small iteration state, and launches another job. Periodic mapper flushing bounds memory, and assignment signatures allow convergence testing without collecting all assignments.
 5. `scp` moved ordinary files Windows → jumphost/EMR master; `hadoop fs -put` ingested the text into HDFS; Streaming processed it; OutputFormat wrote three HDFS `part-*` files; `-getmerge` optionally exported them to one master-local file.
+6. The combiner may run zero or many times, so its output must match mapper output and reducer input. Averaging bare charges gives an average of averages; emit `(charge, 1)`, sum `(sum, count)` in the combiner, and divide only in the reducer.
 
 </details>
 
@@ -1500,6 +1510,14 @@ EOF      → emit wolf\t1
 ```
 
 Use `if current_word is not None` for the final emission; `if current_word == word` incorrectly emits `None\t0` when reducer input is empty.
+
+Per-key average with a true combiner (Streaming: `-combiner combiner.py`):
+
+```text
+Mapper:   key\tvalue           → key\tvalue,1
+Combiner: key\t[s,c ...]        → key\tΣs,Σc        (same shape as mapper output)
+Reducer:  key\t[s,c ...]        → key\tΣs/Σc        (only stage that divides)
+```
 
 ## 9. Iterative MapReduce pattern
 
